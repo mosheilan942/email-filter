@@ -1,5 +1,4 @@
 pipeline {
-    git branch: 'main', url: 'https://github.com/mosheilan942/email-filter'
     agent any
     options {
         skipStagesAfterUnstable()
@@ -17,7 +16,8 @@ pipeline {
         }
         stage('E2E') {
         steps {
-            echo 'E2E to finish'
+            echo currentBuild.result
+            echo currentBuild.displayName
         }
       }
         stage('Deploy') {
