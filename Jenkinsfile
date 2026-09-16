@@ -1,4 +1,5 @@
 pipeline {
+    git branch: 'main', url: 'https://github.com/mosheilan942/email-filter'
     agent any
     options {
         skipStagesAfterUnstable()
