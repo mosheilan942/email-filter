@@ -6,7 +6,7 @@ pipeline {
 stages {
   stage('wow') {
     steps {
-      sh docker ps
+      echo 'Nice'
     }
     input {
       message 'hi'
