@@ -1,15 +1,27 @@
 pipeline {
-    agent any
+    agent { docker { image 'python:3.12-slim' } }
     options {
         skipStagesAfterUnstable()
     }
 stages {
-  stage('wow') {
+  stage('lint') {
     steps {
       echo 'Nice'
     }
-    input {
-      message 'hi'
+  }
+  stage('Test') {
+    steps {
+      echo 'Nice'
+    }
+  }
+  stage('Build') {
+    steps {
+      echo 'Nice'
+    }
+  }
+  stage('Push') {
+    steps {
+      echo 'Nice'
     }
   }
 
