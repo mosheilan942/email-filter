@@ -7,6 +7,7 @@ stages {
   stage('lint') {
     steps {
       sh '''
+      cd home
       python -m venv .venv
       source .venv/bin/activate
       pip install ruff djlint
