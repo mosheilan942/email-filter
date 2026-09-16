@@ -6,7 +6,8 @@ pipeline {
 stages {
   stage('lint') {
     steps {
-      echo 'Nice'
+      pip install ruff
+      ruff check app.py
     }
   }
   stage('Test') {
