@@ -16,7 +16,7 @@ pipeline {
         }
         stage('E2E') {
         steps {
-            echo 'E2E'
+            echo 'E2E to finish'
         }
       }
         stage('Deploy') {
