@@ -6,8 +6,10 @@ pipeline {
 stages {
   stage('lint') {
     steps {
-      pip install ruff
+      sh '''
+      pip install ruff djlint
       ruff check app.py
+      '''
     }
   }
   stage('Test') {
