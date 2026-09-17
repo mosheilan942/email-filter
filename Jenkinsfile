@@ -34,7 +34,9 @@ stages {
   }
   stage('Build') {
     steps {
-      echo 'Nice'
+      sh '''
+      docker build -t my-flask-app .
+      '''
     }
   }
   stage('Push') {
