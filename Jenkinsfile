@@ -7,6 +7,11 @@ pipeline {
         buildDiscarder logRotator(removeLastBuild: true)
     }
 stages {
+  stage('Checkout') {
+    steps {
+      sh 'ls -shall'
+    }
+  }
   stage('lint') {
     steps {
       sh '''
@@ -20,7 +25,11 @@ stages {
   }
   stage('Test') {
     steps {
-      echo 'Nice'
+      sh '''
+      . .venv/bin/activate
+      pip install pytest
+      pytest -v --junitxml=reports/pytest-report.xml
+      '''
     }
   }
   stage('Build') {
@@ -39,7 +48,10 @@ post {
         always {
             cleanWs(cleanWhenNotBuilt: true,
                     deleteDirs: true,
-                    cleanWhenFailure: true)
+                    cleanWhenFailure: true
+            patterns: [[pattern: 'reports/*', type: 'INCLUDE']]
+            )
+            junit testResults: 'reports/pytest-report.xml', allowEmptyResults: true
         }
     }
 }
