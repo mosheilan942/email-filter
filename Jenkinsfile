@@ -9,6 +9,7 @@ pipeline {
 stages {
   stage('Checkout') {
     steps {
+      stash name: 'source', includes: '**'
       sh 'ls -shall'
     }
   }
@@ -16,7 +17,6 @@ stages {
     steps {
       sh '''
       python -m venv .venv
-      ls -shall
       . .venv/bin/activate
       pip install ruff djlint
       ruff check app.py
@@ -34,6 +34,7 @@ stages {
   }
   stage('Build') {
     agent any
+    unstash 'source'
     steps {
       sh '''
       docker build -t my-flask-app .
