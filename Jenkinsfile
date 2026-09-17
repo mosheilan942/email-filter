@@ -33,9 +33,9 @@ stages {
     }
   }
   stage('Build') {
-    agent any
-    unstash 'source'
     steps {
+      agent any
+      unstash 'source'
       sh '''
       docker build -t my-flask-app .
       '''
