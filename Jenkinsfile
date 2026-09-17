@@ -2,6 +2,7 @@ pipeline {
     agent { docker { image 'python:3.12-slim' } }
     options {
         skipStagesAfterUnstable()
+        buildDiscarder logRotator(removeLastBuild: true)
     }
 stages {
   stage('lint') {
