@@ -1,3 +1,5 @@
+#!/usr/bin/env groovy
+
 pipeline {
     agent { docker { image 'python:3.12-slim' } }
     options {
@@ -31,7 +33,7 @@ stages {
       echo 'Nice'
     }
   }
-post {
+  post {
         // Clean after build
         always {
             cleanWs(cleanWhenNotBuilt: true,
