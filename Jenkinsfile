@@ -9,7 +9,7 @@ pipeline {
 stages {
   stage('Checkout') {
     steps {
-      stash name: 'source', includes: '**'
+    //   stash name: 'source', includes: '**'
       sh 'ls -shall'
     }
   }
@@ -33,12 +33,8 @@ stages {
     }
   }
   stage('Build') {
-    options {
-        skipDefaultCheckout()
-    }
-    agent any
+    agent {dockerfile true}
     steps {
-      unstash 'source'
       sh '''
       docker build -t my-flask-app .
       '''
