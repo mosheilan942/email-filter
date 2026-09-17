@@ -33,7 +33,8 @@ stages {
       echo 'Nice'
     }
   }
-  post {
+}
+post {
         // Clean after build
         always {
             cleanWs(cleanWhenNotBuilt: true,
@@ -41,5 +42,4 @@ stages {
                     cleanWhenFailure: true)
         }
     }
-}
 }
