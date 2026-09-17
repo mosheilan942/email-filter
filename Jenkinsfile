@@ -37,7 +37,6 @@ post {
             cleanWs(cleanWhenNotBuilt: true,
                     deleteDirs: true,
                     cleanWhenFailure: true
-        }
     }
 }
 }
