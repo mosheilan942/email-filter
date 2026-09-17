@@ -8,10 +8,9 @@ stages {
   stage('lint') {
     steps {
       sh '''
-      ls -shall
       python -m venv .venv
       ls -shall
-      source .venv/bin/activate
+      . .venv/bin/activate
       pip install ruff djlint
       ruff check app.py
       '''
@@ -32,6 +31,13 @@ stages {
       echo 'Nice'
     }
   }
-
+post {
+        // Clean after build
+        always {
+            cleanWs(cleanWhenNotBuilt: true,
+                    deleteDirs: true,
+                    cleanWhenFailure: true
+        }
+    }
 }
 }
