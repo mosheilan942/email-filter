@@ -33,6 +33,9 @@ stages {
     }
   }
   stage('Build') {
+    options {
+        skipDefaultCheckout()
+    }
     agent any
     steps {
       unstash 'source'
