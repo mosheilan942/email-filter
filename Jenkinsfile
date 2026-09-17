@@ -27,7 +27,7 @@ stages {
     steps {
       sh '''
       . .venv/bin/activate
-      pip install pytest
+      pip install flask pytest
       pytest -v --junitxml=reports/pytest-report.xml
       '''
     }
@@ -46,12 +46,13 @@ stages {
 post {
         // Clean after build
         always {
+            junit testResults: 'reports/pytest-report.xml', allowEmptyResults: true
             cleanWs(cleanWhenNotBuilt: false,
                     deleteDirs: true,
                     disableDeferredWipeout: true,
                     notFailBuild: true,
                     patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
-                               [pattern: '.propsfile', type: 'EXCLUDE']])
+                               [pattern: 'reports/*', type: 'INCLUDE']])
         }
     }
 }
