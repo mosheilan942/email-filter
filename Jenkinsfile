@@ -33,8 +33,8 @@ stages {
     }
   }
   stage('Build') {
+    agent any
     steps {
-      agent any
       unstash 'source'
       sh '''
       docker build -t my-flask-app .
@@ -56,7 +56,7 @@ post {
                     disableDeferredWipeout: true,
                     notFailBuild: true,
                     patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
-                               [pattern: 'reports/*', type: 'INCLUDE']])
+                              [pattern: 'reports/*', type: 'INCLUDE']])
         }
     }
 }
