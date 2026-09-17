@@ -46,11 +46,12 @@ stages {
 post {
         // Clean after build
         always {
-            junit testResults: 'reports/pytest-report.xml', allowEmptyResults: true
-            cleanWs(cleanWhenNotBuilt: true,
-                   deleteDirs: true,
-                   cleanWhenFailure: true
-                   patterns: [[pattern: 'reports/*', type: 'INCLUDE']])
+            cleanWs(cleanWhenNotBuilt: false,
+                    deleteDirs: true,
+                    disableDeferredWipeout: true,
+                    notFailBuild: true,
+                    patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
+                               [pattern: '.propsfile', type: 'EXCLUDE']])
         }
     }
 }
