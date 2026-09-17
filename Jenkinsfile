@@ -1,12 +1,13 @@
 #!/usr/bin/env groovy
 
 pipeline {
-    agent { docker { image 'python:3.12-slim' } }
+    agent none
     options {
         skipStagesAfterUnstable()
         buildDiscarder logRotator(removeLastBuild: true)
     }
 stages {
+  agent any
   stage('Checkout') {
     steps {
     //   stash name: 'source', includes: '**'
@@ -14,6 +15,7 @@ stages {
     }
   }
   stage('lint') {
+  agent { docker { image 'python:3.12-slim' } }
     steps {
       sh '''
       python -m venv .venv
@@ -24,6 +26,7 @@ stages {
     }
   }
   stage('Test') {
+  agent { docker { image 'python:3.12-slim' } }
     steps {
       sh '''
       . .venv/bin/activate
@@ -33,10 +36,10 @@ stages {
     }
   }
   stage('Build') {
-    agent {dockerfile true}
+    agent any
     steps {
       sh '''
-      docker build -t my-flask-app .
+      docker build -t my-flask-app:${BUILD_NUMBER} .
       '''
     }
   }
