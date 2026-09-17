@@ -7,8 +7,8 @@ pipeline {
         buildDiscarder logRotator(removeLastBuild: true)
     }
 stages {
-  agent any
   stage('Checkout') {
+    agent any
     steps {
     //   stash name: 'source', includes: '**'
       sh 'ls -shall'
