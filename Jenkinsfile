@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 pipeline {
-    agent none
+    agent any
     options {
         skipStagesAfterUnstable()
         buildDiscarder logRotator(removeLastBuild: true)
