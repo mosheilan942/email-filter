@@ -7,34 +7,34 @@ pipeline {
         buildDiscarder logRotator(removeLastBuild: true)
     }
 stages {
-  // stage('Checkout') {
-  //   agent any
-  //   steps {
-  //   //   stash name: 'source', includes: '**'
-  //     sh 'ls -shall'
-  //   }
-  // }
-  // stage('lint') {
-  // agent { docker { image 'python:3.12-slim' } }
-  //   steps {
-  //     sh '''
-  //     python -m venv .venv
-  //     . .venv/bin/activate
-  //     pip install ruff djlint
-  //     ruff check app.py
-  //     '''
-  //   }
-  // }
-  // stage('Test') {
-  // agent { docker { image 'python:3.12-slim' } }
-  //   steps {
-  //     sh '''
-  //     . .venv/bin/activate
-  //     pip install flask pytest
-  //     pytest -v --junitxml=reports/pytest-report.xml
-  //     '''
-  //   }
-  // }
+  stage('Checkout') {
+    agent any
+    steps {
+    //   stash name: 'source', includes: '**'
+      sh 'ls -shall'
+    }
+  }
+  stage('lint') {
+  agent { docker { image 'python:3.12-slim' args '-u 1000:1000' } }
+    steps {
+      sh '''
+      python -m venv .venv
+      . .venv/bin/activate
+      pip install ruff djlint
+      ruff check app.py
+      '''
+    }
+  }
+  stage('Test') {
+  agent { docker { image 'python:3.12-slim' args '-u 1000:1000' } }
+    steps {
+      sh '''
+      . .venv/bin/activate
+      pip install flask pytest
+      pytest -v --junitxml=reports/pytest-report.xml
+      '''
+    }
+  }
   stage('Build') {
     agent any
     steps {
