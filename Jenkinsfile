@@ -15,7 +15,10 @@ stages {
     }
   }
   stage('lint') {
-  agent { docker { image 'python:3.12-slim' args '-u 1000:1000' } }
+  agent { docker { image 'python:3.12-slim' 
+                  args '-u 1000:1000' 
+                 } 
+        }
     steps {
       sh '''
       python -m venv .venv
@@ -26,7 +29,8 @@ stages {
     }
   }
   stage('Test') {
-  agent { docker { image 'python:3.12-slim' args '-u 1000:1000' } }
+  agent { docker { image 'python:3.12-slim' 
+                  args '-u 1000:1000' } }
     steps {
       sh '''
       . .venv/bin/activate
@@ -44,6 +48,7 @@ stages {
     }
   }
   stage('Push') {
+    agent any
     steps {
       echo 'Nice'
     }
