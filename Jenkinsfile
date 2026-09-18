@@ -51,8 +51,8 @@ stages {
     agent any
     steps {
       sh '''
-      docker tag my-flask-app:${BUILD_NUMBER} localhost:5000/my-flask-app:${BUILD_NUMBER}
-      docker push localhost:5000/my-flask-app:${BUILD_NUMBER}
+      docker tag my-flask-app:${BUILD_NUMBER} local-registry:5000/my-flask-app:${BUILD_NUMBER}
+      docker push local-registry:5000/my-flask-app:${BUILD_NUMBER}
       '''
     }
   }
