@@ -7,11 +7,12 @@ pipeline {
         buildDiscarder logRotator(removeLastBuild: true)
     }
 stages {
-  stage('Checkout') {
+  stage('Checkout & Cleanup') {
     agent any
     steps {
     //   stash name: 'source', includes: '**'
       sh 'ls -shall'
+      sh 'docker rm -f smoke-test || true'
     }
   }
   stage('lint') {
