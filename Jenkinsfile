@@ -84,6 +84,7 @@ stage('Smoke test') {
 post {
         // Clean after build
         always {
+            sh 'docker rm -f smoke-test'
             junit testResults: 'reports/pytest-report.xml', allowEmptyResults: true
             cleanWs(cleanWhenNotBuilt: false,
                     deleteDirs: true,
