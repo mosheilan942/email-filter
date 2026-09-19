@@ -62,7 +62,7 @@ stage('Smoke test') {
         script {
             sh '''
                 docker run -d --name smoke-test -p 5001:5001 \
-                  registry:2/email-filter:${BUILD_NUMBER}
+                  local-registry:5000/my-flask-app:${BUILD_NUMBER}
                 sleep 3
             '''
             def status = sh(
@@ -82,11 +82,11 @@ post {
         // Clean after build
         always {
             junit testResults: 'reports/pytest-report.xml', allowEmptyResults: true
-            cleanWs(cleanWhenNotBuilt: true,
+            cleanWs(cleanWhenNotBuilt: false,
                     deleteDirs: true,
                     disableDeferredWipeout: true,
                     notFailBuild: true,
-                    patterns: [[pattern: '.git', type: 'EXCLUDE'],
+                    patterns: [[pattern: '.git', type: 'INCLUDE'],
                               [pattern: 'reports/*', type: 'EXCLUDE']])
         }
     }
