@@ -56,12 +56,33 @@ stages {
       '''
     }
   }
+stage('Smoke test') {
+    agent any
+    steps {
+        script {
+            sh '''
+                docker run -d --name smoke-test -p 5001:5000 \
+                  registry:2/email-filter:${BUILD_NUMBER}
+                sleep 3
+            '''
+            def status = sh(
+                script: 'curl -s -o /dev/null -w "%{http_code}" http://localhost:5001/',
+                returnStdout: true
+            ).trim()
+            sh 'docker logs smoke-test'
+            sh 'docker rm -f smoke-test'
+            if (status != '200') {
+                error "Smoke test failed: expected 200, got ${status}"
+            }
+        }
+    }
+}
 }
 post {
         // Clean after build
         always {
             junit testResults: 'reports/pytest-report.xml', allowEmptyResults: true
-            cleanWs(cleanWhenNotBuilt: true,
+            cleanWs(cleanWhenNotBuilt: false,
                     deleteDirs: true,
                     disableDeferredWipeout: true,
                     notFailBuild: true,
