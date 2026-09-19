@@ -61,7 +61,7 @@ stage('Smoke test') {
     steps {
         script {
             sh '''
-                docker run -d --name smoke-test -p 5001:5000 \
+                docker run -d --name smoke-test -p 5001:5001 \
                   registry:2/email-filter:${BUILD_NUMBER}
                 sleep 3
             '''
