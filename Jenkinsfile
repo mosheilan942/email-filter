@@ -23,6 +23,19 @@ stages {
       sh 'docker rm -f smoke-test || true'
     }
   }
+  stage('Example') {
+            steps {
+                echo "Hello ${params.PERSON}"
+
+                echo "Biography: ${params.BIOGRAPHY}"
+
+                echo "Toggle: ${params.TOGGLE}"
+
+                echo "Choice: ${params.CHOICE}"
+
+                echo "Password: ${params.PASSWORD}"
+            }
+        }
   stage('lint') {
   agent { docker { image 'python:3.12-slim' 
                   args '-u 1000:1000' 
