@@ -82,11 +82,11 @@ post {
         // Clean after build
         always {
             junit testResults: 'reports/pytest-report.xml', allowEmptyResults: true
-            cleanWs(cleanWhenNotBuilt: false,
+            cleanWs(cleanWhenNotBuilt: true,
                     deleteDirs: true,
                     disableDeferredWipeout: true,
                     notFailBuild: true,
-                    patterns: [[pattern: '.gitignore', type: 'EXCLUDE'],
+                    patterns: [[pattern: '.git', type: 'EXCLUDE'],
                               [pattern: 'reports/*', type: 'EXCLUDE']])
         }
     }
