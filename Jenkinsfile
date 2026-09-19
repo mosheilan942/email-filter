@@ -67,7 +67,7 @@ stage('Smoke test') {
                 sleep 3
             '''
             sh '''
-            sh 'curl -v http://docker:5001/ 2>&1 || true'
+            curl -v http://docker:5001/ 2>&1 || true
             '''
             def status = sh(
                 script: 'curl -s -o /dev/null -w "%{http_code}" http://docker:5001/',
