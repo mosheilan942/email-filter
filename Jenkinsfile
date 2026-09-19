@@ -65,8 +65,11 @@ stage('Smoke test') {
                   local-registry:5000/my-flask-app:${BUILD_NUMBER}
                 sleep 3
             '''
+            sh '''
+            sh 'curl -v http://docker:5001/ 2>&1 || true'
+            '''
             def status = sh(
-                script: 'curl -s -o /dev/null -w "%{http_code}" http://localhost:5001/',
+                script: 'curl -s -o /dev/null -w "%{http_code}" http://docker:5001/',
                 returnStdout: true
             ).trim()
             sh 'docker logs smoke-test'
