@@ -17,4 +17,4 @@ def show_user_profile(username):
 
 if __name__ == '__main__':
     # Run the local development server
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
