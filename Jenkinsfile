@@ -15,7 +15,6 @@ pipeline {
     }
 stages {
   stage('Checkout & Cleanup') {
-    agent any
     when { branch pattern: "notMain", comparator: "EQUALS"}
     steps {
     //   stash name: 'source', includes: '**'
@@ -37,10 +36,8 @@ stages {
             }
         }
   stage('lint') {
-  agent { docker { image 'python:3.12-slim' 
-                  args '-u 1000:1000' 
-                 } 
-        }
+  agent { docker { image 'python:3.12-slim'  
+  } }
     steps {
       sh '''
       python -m venv .venv
@@ -52,7 +49,7 @@ stages {
   }
   stage('Test') {
   agent { docker { image 'python:3.12-slim' 
-                  args '-u 1000:1000' } }
+  } }
     steps {
       sh '''
       . .venv/bin/activate
@@ -63,7 +60,6 @@ stages {
     }
   }
   stage('Build') {
-    agent any
     steps {
       sh '''
       docker build -t my-flask-app:${BUILD_NUMBER} .
@@ -71,7 +67,6 @@ stages {
     }
   }
   stage('Push') {
-    agent any
     steps {
       sh '''
       docker tag my-flask-app:${BUILD_NUMBER} local-registry:5000/my-flask-app:${BUILD_NUMBER}
@@ -80,7 +75,6 @@ stages {
     }
   }
 stage('Smoke test') {
-    agent any
     steps {
         script {
             sh '''
