@@ -102,7 +102,7 @@ post {
             archiveArtifacts artifacts: 'reports/*.xml',
                                 allowEmptyArchive: true, 
                                 fingerprint: true,
-                                onlyIfSuccessful: true
+                                onlyIfSuccessful: false
         }
         always {
             sh 'docker rm -f smoke-test'
