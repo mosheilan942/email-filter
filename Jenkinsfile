@@ -94,8 +94,7 @@ stage('Smoke test') {
         }
     }
 }
-archiveArtifacts 
-                   
+                    
 }
 post {
         failure {
