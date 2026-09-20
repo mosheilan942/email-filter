@@ -88,7 +88,7 @@ stage('Smoke test') {
                 sleep 3
             '''
             def status = sh(
-                script: 'sh curl -s -o /dev/null -w "%{http_code}" http://docker:5001/',
+                script: 'curl -s -o /dev/null -w "%{http_code}" http://docker:5001/',
                 returnStdout: true
             ).trim()
             sh 'docker logs smoke-test'
