@@ -94,13 +94,17 @@ stage('Smoke test') {
         }
     }
 }
-archiveArtifacts artifacts: 'reports/*.xml',
-                   allowEmptyArchive: true,
-                   fingerprint: true,
-                   onlyIfSuccessful: true
+archiveArtifacts 
+                   
 }
 post {
-        // Clean after build
+        failure {
+            echo 'Build failed! Archiving diagnostic logs and artifacts...'
+            archiveArtifacts artifacts: 'reports/*.xml',
+                                allowEmptyArchive: true, 
+                                fingerprint: true,
+                                onlyIfSuccessful: true
+        }
         always {
             sh 'docker rm -f smoke-test'
             unstash 'test-results'
