@@ -35,6 +35,8 @@ stages {
                 echo "Password: ${params.PASSWORD}"
             }
         }
+  parallel {
+
   stage('lint') {
   agent { docker { image 'python:3.12-slim'  
   } }
@@ -58,6 +60,7 @@ stages {
       '''
       stash includes: 'reports/*.xml', name: 'test-results'
     }
+  }
   }
   stage('Build') {
     steps {
