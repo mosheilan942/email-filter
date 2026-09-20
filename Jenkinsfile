@@ -94,6 +94,10 @@ stage('Smoke test') {
         }
     }
 }
+archiveArtifacts artifacts: 'reports/*.xml',
+                   allowEmptyArchive: true,
+                   fingerprint: true,
+                   onlyIfSuccessful: true
 }
 post {
         // Clean after build
