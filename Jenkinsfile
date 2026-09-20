@@ -59,6 +59,7 @@ stages {
       pip install flask pytest
       pytest -v --junitxml=reports/pytest-report.xml
       '''
+      stash includes: 'reports/*.xml', name: 'test-results'
     }
   }
   stage('Build') {
@@ -107,6 +108,7 @@ post {
         // Clean after build
         always {
             sh 'docker rm -f smoke-test'
+            unstash 'test-results'
             junit testResults: 'reports/pytest-report.xml', allowEmptyResults: true
             cleanWs(cleanWhenNotBuilt: false,
                     deleteDirs: true,
