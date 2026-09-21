@@ -56,6 +56,7 @@ stages {
   } }
     steps {
       sh '''
+      python -m venv .venv
       . .venv/bin/activate
       pip install flask pytest
       pytest -v --junitxml=reports/pytest-report.xml
