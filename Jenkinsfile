@@ -10,8 +10,10 @@ pipeline {
         password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
     }
     options {
+        disableConcurrentBuilds()
         skipStagesAfterUnstable()
-        buildDiscarder logRotator(removeLastBuild: true)
+        buildDiscarder logRotator(removeLastBuild: true, numToKeepStr: '5')
+        timeout(time: 5, unit: 'MINUTES') 
     }
     environment {
     DOCKER_REGISTRY = credentials('36304674-ec83-40bf-a83e-7fa73b31f653')
@@ -78,7 +80,6 @@ stages {
     steps {
       sh '''
       docker tag my-flask-app:${BUILD_NUMBER} local-registry:5000/my-flask-app:${BUILD_NUMBER}
-      echo "$DOCKER_REGISTRY_USR"
       echo "$DOCKER_REGISTRY_PSW" | docker login local-registry:5000 --username "$DOCKER_REGISTRY_USR" --password-stdin
       docker push local-registry:5000/my-flask-app:${BUILD_NUMBER}
       '''
