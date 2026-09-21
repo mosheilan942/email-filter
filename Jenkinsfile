@@ -37,11 +37,11 @@ stages {
             }
         }
   stage('Run Tests') {
-      agent { docker { image 'python:3.12-slim'  
-  } }
   parallel {
 
   stage('lint') {
+        agent { docker { image 'python:3.12-slim'  
+  } }
     steps {
       sh '''
       python -m venv .venv
@@ -52,6 +52,8 @@ stages {
     }
   }
   stage('Test') {
+        agent { docker { image 'python:3.12-slim'  
+  } }
     steps {
       sh '''
       . .venv/bin/activate
