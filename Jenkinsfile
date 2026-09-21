@@ -13,6 +13,9 @@ pipeline {
         skipStagesAfterUnstable()
         buildDiscarder logRotator(removeLastBuild: true)
     }
+    environment {
+    DOCKER_REGISTRY = credentials('36304674-ec83-40bf-a83e-7fa73b31f653')
+}
 stages {
   stage('Checkout & Cleanup') {
     when { branch pattern: "notMain", comparator: "EQUALS"}
@@ -75,6 +78,7 @@ stages {
     steps {
       sh '''
       docker tag my-flask-app:${BUILD_NUMBER} local-registry:5000/my-flask-app:${BUILD_NUMBER}
+      echo "$DOCKER_REGISTRY_PSW" | docker login local-registry:5000 --username "DOCKER_REGISTRY_USR" --password-stdin
       docker push local-registry:5000/my-flask-app:${BUILD_NUMBER}
       '''
     }
