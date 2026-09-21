@@ -33,7 +33,7 @@ stages {
 
                 echo "Choice: ${params.CHOICE}"
 
-                echo "Password: ${params.PASSWORD}"
+                echo 'Password: ${params.PASSWORD}'
             }
         }
   stage('Run Tests') {
