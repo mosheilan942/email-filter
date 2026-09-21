@@ -78,7 +78,8 @@ stages {
     steps {
       sh '''
       docker tag my-flask-app:${BUILD_NUMBER} local-registry:5000/my-flask-app:${BUILD_NUMBER}
-      echo "$DOCKER_REGISTRY_PSW" | docker login local-registry:5000 --username "DOCKER_REGISTRY_USR" --password-stdin
+      echo "$DOCKER_REGISTRY_USR"
+      echo "$DOCKER_REGISTRY_PSW" | docker login local-registry:5000 --username "$DOCKER_REGISTRY_USR" --password-stdin
       docker push local-registry:5000/my-flask-app:${BUILD_NUMBER}
       '''
     }
