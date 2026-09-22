@@ -1,5 +1,5 @@
 #!/usr/bin/env groovy
-
+@Library('shared-library') _
 pipeline {
     agent any
     parameters {
@@ -19,6 +19,11 @@ pipeline {
     DOCKER_REGISTRY = credentials('36304674-ec83-40bf-a83e-7fa73b31f653')
 }
 stages {
+  stage('Use shared library') {
+    steps {
+      HelloWorld(name: "Moshe", userName: "mosheilan")
+    }
+  }
   stage('Checkout & Cleanup') {
     when { branch pattern: "notMain", comparator: "EQUALS"}
     steps {
