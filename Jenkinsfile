@@ -21,7 +21,7 @@ pipeline {
 stages {
   stage('Use shared library') {
     steps {
-      HelloWorld(name: "Moshe", userName: "mosheilan")
+      helloWorld()
     }
   }
   stage('Checkout & Cleanup') {
