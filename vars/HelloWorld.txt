@@ -1,0 +1,1 @@
+This is a funection to greet new member of the compeny with new userName
