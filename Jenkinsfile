@@ -20,7 +20,7 @@ pipeline {
 }
 stages {
   stage('Checkout & Cleanup') {
-    when { branch pattern: "notMain", comparator: "EQUALS"}
+    when { branch pattern: "fix-*", comparator: "EQUALS"}
     steps {
     //   stash name: 'source', includes: '**'
       sh 'ls -shall'
