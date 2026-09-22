@@ -1,3 +1,3 @@
-def call(Map config = [:]) {
-    sh "echo Hello ${config.name}. You are the ${config.userName}."
+def call() {
+    sh "echo Hello world from shared library"
 }
