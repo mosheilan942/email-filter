@@ -2,12 +2,12 @@
 @Library('shared-library@v1.0.0') _
 
 properties([
+        disableConcurrentBuilds(),
+        buildDiscarder(logRotator(removeLastBuild: true, numToKeepStr: '5'))
     parameters([
         booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value'),
         choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something'),
         password(name: 'PASSWORD', value: 'SECRET', description: 'Enter a password'),
-        disableConcurrentBuilds(),
-        buildDiscarder(logRotator(removeLastBuild: true, numToKeepStr: '5'))
     ])
 ])
 node {
