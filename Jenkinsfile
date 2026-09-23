@@ -22,74 +22,72 @@ node {
         
         
   stage('Use shared library') {
-    steps {
-      helloWorld(name: "Moshe", userName: "user mosheilan")
+    // Commands run directly inside the stage
+    helloWorld(name: "Moshe", userName: "user mosheilan")
+}
+
+stage('Checkout & Cleanup') {
+    // Replaces: when { branch pattern: "notMain", comparator: "EQUALS"}
+    if (env.BRANCH_NAME == 'notMain') {
+        // stash name: 'source', includes: '**'
+        sh 'ls -shall'
+        sh 'docker rm -f smoke-test || true'
+    } else {
+        echo "Skipping stage because branch is ${env.BRANCH_NAME}, not 'notMain'"
     }
-  }
-  stage('Checkout & Cleanup') {
-    when { branch pattern: "notMain", comparator: "EQUALS"}
-    steps {
-    //   stash name: 'source', includes: '**'
-      sh 'ls -shall'
-      sh 'docker rm -f smoke-test || true'
-    }
-  }
+}
   stage('Example') {
-            steps {
                 echo "Toggle: ${params.TOGGLE}"
 
                 echo "Choice: ${params.CHOICE}"
 
                 echo 'Password: ${params.PASSWORD}'
-            }
         }
   stage('Run Tests') {
-  parallel {
+    // Parallel steps in Scripted require a map of named closures
+    parallel(
+        'lint': {
+            stage('lint') {
+                // Replaces: agent { docker { image 'python:3.12-slim' } }
+                docker.image('python:3.12-slim').inside {
+                    // steps block is removed, commands run directly
+                    sh '''
+                    python -m venv .venv
+                    . .venv/bin/activate
+                    pip install ruff djlint
+                    ruff check app.py
+                    '''
+                }
+            }
+        },
+        'Test': {
+            stage('Test') {
+                docker.image('python:3.12-slim').inside {
+                    sh '''
+                    . .venv/bin/activate
+                    pip install flask pytest
+                    pytest -v --junitxml=reports/pytest-report.xml
+                    '''
+                    stash includes: 'reports/*.xml', name: 'test-results'
+                }
+            }
+        }
+    )
+}
 
-  stage('lint') {
-        agent { docker { image 'python:3.12-slim'  
-  } }
-    steps {
-      sh '''
-      python -m venv .venv
-      . .venv/bin/activate
-      pip install ruff djlint
-      ruff check app.py
-      '''
-    }
-  }
-  stage('Test') {
-        agent { docker { image 'python:3.12-slim'  
-  } }
-    steps {
-      sh '''
-      . .venv/bin/activate
-      pip install flask pytest
-      pytest -v --junitxml=reports/pytest-report.xml
-      '''
-      stash includes: 'reports/*.xml', name: 'test-results'
-    }
-  }
-  }
-  }
   stage('Build') {
-    steps {
       sh '''
       docker build -t my-flask-app:${BUILD_NUMBER} .
       '''
-    }
   }
   stage('Push') {
-    steps {
       sh '''
       docker tag my-flask-app:${BUILD_NUMBER} local-registry:5000/my-flask-app:${BUILD_NUMBER}
       echo "$DOCKER_REGISTRY_PSW" | docker login local-registry:5000 --username "$DOCKER_REGISTRY_USR" --password-stdin
       docker push local-registry:5000/my-flask-app:${BUILD_NUMBER}
       '''
-    }
   }
 stage('Smoke test') {
-    steps {
         script {
             sh '''
                 docker run -d --name smoke-test -p 5001:5001 \
@@ -106,7 +104,6 @@ stage('Smoke test') {
                 error "Smoke test failed: expected 200, got ${status}"
             }
         }
-    }
 }
 stage('Second Stage') {
             // 3. Manual implementation of skipStagesAfterUnstable()
