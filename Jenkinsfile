@@ -9,15 +9,18 @@ node {
 
         password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
     }
-    options {
-        disableConcurrentBuilds()
-        skipStagesAfterUnstable()
-        buildDiscarder logRotator(removeLastBuild: true, numToKeepStr: '5')
-        timeout(time: 5, unit: 'MINUTES') 
-    }
+    // 1. Job-level properties (Run at the very beginning)
+    properties([
+        disableConcurrentBuilds(),
+        buildDiscarder(logRotator(removeLastBuild: true, numToKeepStr: '5'))
+    ])
+
     environment {
     DOCKER_REGISTRY = credentials('36304674-ec83-40bf-a83e-7fa73b31f653')
-}
+    // 2. Global timeout wrapper
+    timeout(time: 5, unit: 'MINUTES') {
+        
+        
 stages {
   stage('Use shared library') {
     steps {
@@ -106,7 +109,15 @@ stage('Smoke test') {
         }
     }
 }
-                    
+stage('Second Stage') {
+            // 3. Manual implementation of skipStagesAfterUnstable()
+            if (currentBuild.result == 'UNSTABLE') {
+                echo 'Skipping stage due to UNSTABLE build status.'
+                Utils.markStageSkippedForConditional('Second Stage') // Optional: visually skips in Blue Ocean
+            } else {
+                echo 'Running second stage...'
+            }
+        }                 
 }
 post {
         failure {
@@ -135,3 +146,6 @@ post {
         echo 'Deploy'
     }
     }
+
+    }
+}
