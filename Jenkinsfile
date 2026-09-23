@@ -21,7 +21,6 @@ node {
     timeout(time: 5, unit: 'MINUTES') {
         
         
-stages {
   stage('Use shared library') {
     steps {
       helloWorld(name: "Moshe", userName: "user mosheilan")
@@ -118,7 +117,6 @@ stage('Second Stage') {
                 echo 'Running second stage...'
             }
         }                 
-}
 post {
         failure {
             echo 'Build failed! Archiving diagnostic logs and artifacts...'
