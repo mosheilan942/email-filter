@@ -1,5 +1,5 @@
 #!/usr/bin/env groovy
-@Library('shared-library') _
+@Library('shared-library@v1.0.0') _
 pipeline {
     agent any
     parameters {
