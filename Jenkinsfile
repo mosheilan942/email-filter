@@ -26,23 +26,23 @@ node {
     helloWorld(name: "Moshe", userName: "user mosheilan")
 }
 
-// stage('Checkout & Cleanup') {
-//     // Replaces: when { branch pattern: "notMain", comparator: "EQUALS"}
-//     if (env.BRANCH_NAME == 'notMain') {
-//         // stash name: 'source', includes: '**'
-//         sh 'ls -shall'
-//         sh 'docker rm -f smoke-test || true'
-//     } else {
-//         echo "Skipping stage because branch is ${env.BRANCH_NAME}, not 'notMain'"
-//     }
-// }
-//   stage('Example') {
-//                 echo "Toggle: ${params.TOGGLE}"
+stage('Checkout & Cleanup') {
+    // Replaces: when { branch pattern: "notMain", comparator: "EQUALS"}
+    if (env.BRANCH_NAME == 'notMain') {
+        // stash name: 'source', includes: '**'
+        sh 'ls -shall'
+        sh 'docker rm -f smoke-test || true'
+    } else {
+        echo "Skipping stage because branch is ${env.BRANCH_NAME}, not 'notMain'"
+    }
+}
+  stage('Example') {
+                echo "Toggle: ${params.TOGGLE}"
 
-//                 echo "Choice: ${params.CHOICE}"
+                echo "Choice: ${params.CHOICE}"
 
-//                 echo 'Password: ${params.PASSWORD}'
-//         }
+                echo 'Password: ${params.PASSWORD}'
+        }
 //   stage('Run Tests') {
 //     // Parallel steps in Scripted require a map of named closures
 //     parallel(
