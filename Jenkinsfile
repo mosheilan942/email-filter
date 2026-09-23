@@ -1,14 +1,14 @@
 #!/usr/bin/env groovy
 @Library('shared-library@v1.0.0') _
 
-node {
-    properties([
-        parameters([
-            booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value'),
-            choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something'),
-            password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
-        ])
+properties([
+    parameters([
+        booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value'),
+        choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something'),
+        password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
     ])
+])
+node {
     // 1. Job-level properties (Run at the very beginning)
     properties([
         disableConcurrentBuilds(),
