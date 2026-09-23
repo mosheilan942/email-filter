@@ -5,7 +5,7 @@ properties([
     parameters([
         booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value'),
         choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something'),
-        password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password'),
+        password(name: 'PASSWORD', value: 'SECRET', description: 'Enter a password'),
         disableConcurrentBuilds(),
         buildDiscarder(logRotator(removeLastBuild: true, numToKeepStr: '5'))
     ])
