@@ -15,8 +15,8 @@ node {
         buildDiscarder(logRotator(removeLastBuild: true, numToKeepStr: '5'))
     ])
 
-    environment {
-    DOCKER_REGISTRY = credentials('36304674-ec83-40bf-a83e-7fa73b31f653')
+    // environment {
+    // DOCKER_REGISTRY = credentials('36304674-ec83-40bf-a83e-7fa73b31f653')
     // 2. Global timeout wrapper
     timeout(time: 5, unit: 'MINUTES') {
         
@@ -142,5 +142,5 @@ node {
 //     }
      }
 
-    }
+    // }
 }
