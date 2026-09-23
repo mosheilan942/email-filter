@@ -2,13 +2,13 @@
 @Library('shared-library@v1.0.0') _
 
 node {
-    parameters {
-        booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value')
-
-        choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something')
-
-        password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
-    }
+    properties([
+        parameters([
+            booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value'),
+            choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something'),
+            password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
+        ])
+    ])
     // 1. Job-level properties (Run at the very beginning)
     properties([
         disableConcurrentBuilds(),
@@ -37,12 +37,11 @@ stage('Checkout & Cleanup') {
     }
 }
   stage('Example') {
-                echo "Toggle: ${params.TOGGLE}"
-
-                echo "Choice: ${params.CHOICE}"
-
-                echo 'Password: ${params.PASSWORD}'
-        }
+        // Now you can safely consume them as shown before:
+        echo "Toggle: ${params.TOGGLE}"
+        echo "Choice: ${params.CHOICE}"
+        echo "Password: ${params.PASSWORD}"
+    }
 //   stage('Run Tests') {
 //     // Parallel steps in Scripted require a map of named closures
 //     parallel(
