@@ -5,17 +5,13 @@ properties([
     parameters([
         booleanParam(name: 'TOGGLE', defaultValue: true, description: 'Toggle this value'),
         choice(name: 'CHOICE', choices: ['One', 'Two', 'Three'], description: 'Pick something'),
-        password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password')
-    ])
-])
-node {
-    checkout scm
-    // 1. Job-level properties (Run at the very beginning)
-    properties([
+        password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'Enter a password'),
         disableConcurrentBuilds(),
         buildDiscarder(logRotator(removeLastBuild: true, numToKeepStr: '5'))
     ])
-
+])
+node {
+    checkout scm    
     // environment {
     // DOCKER_REGISTRY = credentials('36304674-ec83-40bf-a83e-7fa73b31f653')
     // 2. Global timeout wrapper
