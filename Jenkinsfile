@@ -9,6 +9,7 @@ properties([
     ])
 ])
 node {
+    checkout scm
     // 1. Job-level properties (Run at the very beginning)
     properties([
         disableConcurrentBuilds(),
