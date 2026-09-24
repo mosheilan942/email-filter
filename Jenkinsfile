@@ -73,7 +73,8 @@ stages {
   stage('Build') {
     steps {
       sh '''
-      docker build -t my-flask-app:${BUILD_NUMBER} .
+      docker build --cache-from local-registry:5000/my-flask-app:latest \
+      -t my-flask-app:${BUILD_NUMBER} .
       '''
     }
   }
