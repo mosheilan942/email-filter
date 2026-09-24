@@ -120,6 +120,10 @@ node {
                     }
                 )
             }
+            // Example of CPS bug
+            def matcher = "app-v1.2.3" =~ /v(\d+\.\d+\.\d+)/
+            sh 'echo "some step runs here"'
+            echo "version is ${matcher[0][1]}"
 
             runStage('Build') {
                 sh 'docker build -t my-flask-app:${BUILD_NUMBER} .'
